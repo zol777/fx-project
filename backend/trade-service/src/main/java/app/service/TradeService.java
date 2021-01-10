@@ -5,6 +5,7 @@ import core.framework.web.exception.BadRequestException;
 
 import java.util.Currency;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 /**
@@ -12,16 +13,21 @@ import java.util.Set;
  */
 public class TradeService {
     private static final Set<String> CURRENCY_CODES = new HashSet<>();
+    private static final Set<String> COUNTRY_CODES = new HashSet<>();
 
     static {
         Set<Currency> currencies = Currency.getAvailableCurrencies();
         for (Currency currency : currencies) {
             CURRENCY_CODES.add(currency.getCurrencyCode());
         }
+
+        Set<String> countries = Locale.getISOCountries(Locale.IsoCountryCode.PART1_ALPHA2);
+        COUNTRY_CODES.addAll(countries);
     }
 
     public void create(CreateTradeRequest request) {
         validateCurrency(request);
+        validateCountry(request);
     }
 
     void validateCurrency(CreateTradeRequest request) {
@@ -29,5 +35,10 @@ public class TradeService {
             throw new BadRequestException("unsupported currencyFrom, value=" + request.currencyFrom);
         if (!CURRENCY_CODES.contains(request.currencyTo))
             throw new BadRequestException("unsupported currencyTo, value=" + request.currencyTo);
+    }
+
+    void validateCountry(CreateTradeRequest request) {
+        if (!COUNTRY_CODES.contains(request.originatingCountry))
+            throw new BadRequestException("unsupported originatingCountry, value=" + request.originatingCountry);
     }
 }

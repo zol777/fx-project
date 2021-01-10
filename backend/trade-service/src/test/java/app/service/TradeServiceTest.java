@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 /**
  * @author ericchung
@@ -35,5 +36,25 @@ class TradeServiceTest {
         assertThatThrownBy(() -> service.create(request))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessageContaining("currencyTo");
+    }
+
+    @Test
+    void validCountryCode() {
+        var request = new CreateTradeRequest();
+        request.currencyFrom = "EUR";
+        request.currencyTo = "GBP";
+        request.originatingCountry = "FR";
+        assertDoesNotThrow(() -> service.create(request));
+    }
+
+    @Test
+    void invalidCountryCode() {
+        var request = new CreateTradeRequest();
+        request.currencyFrom = "EUR";
+        request.currencyTo = "GBP";
+        request.originatingCountry = "HongKong";
+        assertThatThrownBy(() -> service.create(request))
+                .isInstanceOf(BadRequestException.class)
+                .hasMessageContaining("originatingCountry");
     }
 }

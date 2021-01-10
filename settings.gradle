@@ -1,2 +1,4 @@
-include 'backend:trade-service'
-include 'frontend:backoffice'
+include 'backend:trade-service',
+        'backend:trade-service-interface'
+
+include ':frontend:backoffice'

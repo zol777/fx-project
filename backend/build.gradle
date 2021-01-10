@@ -1,2 +1,5 @@
 project('trade-service') {
+    dependencies {
+        implementation project(':backend:trade-service-interface')
+    }
 }

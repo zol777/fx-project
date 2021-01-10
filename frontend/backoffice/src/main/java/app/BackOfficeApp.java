@@ -13,10 +13,13 @@ public class BackOfficeApp extends App {
     @Override
     protected void initialize() {
         load(new SystemModule("sys.properties"));
+        loadProperties("app.properties");
 
         site().staticContent("/static");
 
         var controller = new HomeController(bind(WebPages.class));
         http().route(HTTPMethod.GET, "/", controller);
+
+        api().client(TradeWebService.class, requiredProperty("app.tradeServiceURL"));
     }
 }

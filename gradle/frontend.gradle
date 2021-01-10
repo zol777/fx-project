@@ -1,0 +1,32 @@
+def yarn(String dir, List<String> params) {
+    def isWindows = org.gradle.internal.os.OperatingSystem.current().isWindows()
+    def command = isWindows ? ['cmd', '/c', 'yarn'] : ['yarn']
+    command.addAll(params)
+    return {
+        workingDir dir
+        commandLine command
+    }
+}
+
+afterEvaluate {
+    assert project.ext.has('frontendDir')
+    String frontendDir = project.ext['frontendDir']
+    tasks.register('buildFrontend') {
+        group = 'build'
+        doLast {
+            delete 'src/main/dist/web'
+
+            assert file(frontendDir).exists()
+
+            exec yarn(frontendDir, ['install'])
+
+            def command = ['run', 'build']
+            exec yarn(frontendDir, command)
+
+            copy {
+                from "${frontendDir}/dist"
+                into 'src/main/dist/web'
+            }
+        }
+    }
+}

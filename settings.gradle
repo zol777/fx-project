@@ -1,0 +1,2 @@
+include 'backend:trade-service'
+include 'frontend:backoffice'

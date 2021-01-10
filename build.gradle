@@ -1,0 +1,32 @@
+apply from: file("${rootDir}/gradle/project.gradle")
+
+subprojects {
+    group = "com.demo"
+    version = '1.0.0'
+
+    repositories {
+        maven {
+            url 'https://neowu.github.io/maven-repo/'
+            content {
+                includeGroup 'core.framework'
+            }
+        }
+    }
+}
+
+def coreNGVersion = '7.6.8'
+
+configure(subprojects.findAll { it.name.endsWith('-interface') }) {
+    dependencies {
+        implementation "core.framework:core-ng-api:${coreNGVersion}"
+    }
+}
+
+configure([project(":frontend:backoffice"),
+           project(":backend:trade-service")]) {
+    apply from: file("${rootDir}/gradle/app.gradle")
+    dependencies {
+        implementation "core.framework:core-ng:${coreNGVersion}"
+        testImplementation "core.framework:core-ng-test:${coreNGVersion}"
+    }
+}

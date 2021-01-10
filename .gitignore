@@ -1,0 +1,9 @@
+/.idea/
+/.gradle/
+build/
+/classes/
+.DS_Store
+wiki/
+**/dist/
+yarn-error.log
+node_modules/

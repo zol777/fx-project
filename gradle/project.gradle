@@ -1,0 +1,37 @@
+defaultTasks 'clean', 'build'
+
+subprojects {
+    apply plugin: 'java'
+
+    sourceCompatibility = JavaVersion.VERSION_15
+    targetCompatibility = JavaVersion.VERSION_15
+
+    repositories {
+        mavenCentral()
+    }
+
+    tasks.named('test') {
+        useJUnitPlatform()
+        failFast = true
+        testLogging.showStandardStreams = true
+        testLogging.exceptionFormat 'full'
+    }
+
+    buildDir = "${rootDir}/build/${rootDir.relativePath(projectDir)}"
+
+    tasks.withType(JavaCompile).configureEach {
+        options.encoding = 'UTF-8'
+        options.compilerArgs += ['-Xlint:all', '-proc:none', '-Werror']
+    }
+}
+
+apply from: file("${rootDir}/gradle/check.gradle")
+
+allprojects {
+    apply plugin: 'idea'
+    idea.module.inheritOutputDirs = true
+}
+
+tasks.named('wrapper') {
+    gradleVersion = '6.8'
+}

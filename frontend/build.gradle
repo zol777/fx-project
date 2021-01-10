@@ -1,0 +1,4 @@
+project('backoffice') {
+    apply from: file("${rootDir}/gradle/frontend.gradle")
+    project.ext['frontendDir'] = "${rootDir}/frontend/backoffice-ui"
+}

@@ -12,8 +12,8 @@ import core.framework.web.Response;
 public class HomeController implements Controller {
     private final byte[] indexPage;
 
-    public HomeController(Webpage webpage) {
-        indexPage = webpage.get("/index.html");
+    public HomeController(WebPages pages) {
+        indexPage = pages.get("/index.html");
     }
 
     @Override

@@ -7,7 +7,7 @@ import core.framework.web.site.WebDirectory;
 /**
  * @author ericchung
  */
-public class Webpage { // wrapper for mock in unit test
+public class WebPages { // wrapper for mock in unit test
     @Inject
     WebDirectory directory;
 

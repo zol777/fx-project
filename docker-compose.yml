@@ -1,0 +1,12 @@
+version: "3"
+services:
+  trade-service:
+    image: ericccw/fx-trade-service:latest
+    ports:
+      - 8090:8090
+  backoffice:
+    image: ericccw/fx-backoffice:latest
+    ports:
+      - 8443:8443
+    depends_on:
+      - trade-service

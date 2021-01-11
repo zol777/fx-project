@@ -1,2 +1,34 @@
 apply plugin: 'application'
 mainClassName = 'Main'
+
+tasks.named("distTar").configure {
+    archiveFileName = "${archiveBaseName.get()}.${archiveExtension.get()}"
+}
+
+tasks.named("distZip").configure {
+    enabled = false
+}
+
+tasks.named("startScripts").configure {
+    defaultJvmOpts = ['-Dcore.webPath=APP_HOME_VAR/web', "-Dcore.appName=${applicationName}"]
+
+    doLast {
+        windowsScript.text = windowsScript.text.replaceFirst('APP_HOME_VAR', '%APP_HOME%')
+        unixScript.text = unixScript.text.replaceFirst('APP_HOME_VAR', '\\$APP_HOME')
+    }
+}
+
+afterEvaluate {
+    tasks.register('dockerTar') {
+        group = 'distribution'
+        dependsOn assemble
+        doLast {
+            delete "${projectDir}/docker/file/${project.name}.tar"
+            copy {
+                from("${buildDir}/distributions/${project.name}.tar")
+                into("${projectDir}/docker/file")
+            }
+        }
+    }
+}
+

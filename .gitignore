@@ -7,3 +7,4 @@ wiki/
 **/dist/
 yarn-error.log
 node_modules/
+*.tar

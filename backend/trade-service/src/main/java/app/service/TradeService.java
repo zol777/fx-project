@@ -13,7 +13,7 @@ import java.util.Set;
  */
 public class TradeService {
     private static final Set<String> CURRENCY_CODES = new HashSet<>();
-    private static final Set<String> COUNTRY_CODES = new HashSet<>();
+    private static final Set<String> COUNTRY_CODES;
 
     static {
         Set<Currency> currencies = Currency.getAvailableCurrencies();
@@ -21,8 +21,7 @@ public class TradeService {
             CURRENCY_CODES.add(currency.getCurrencyCode());
         }
 
-        Set<String> countries = Locale.getISOCountries(Locale.IsoCountryCode.PART1_ALPHA2);
-        COUNTRY_CODES.addAll(countries);
+        COUNTRY_CODES = Set.of(Locale.getISOCountries());
     }
 
     public void create(CreateTradeRequest request) {

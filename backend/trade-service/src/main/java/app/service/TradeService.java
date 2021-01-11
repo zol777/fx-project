@@ -4,24 +4,24 @@ import app.trade.CreateTradeRequest;
 import core.framework.web.exception.BadRequestException;
 
 import java.util.Currency;
-import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author ericchung
  */
 public class TradeService {
-    private static final Set<String> CURRENCY_CODES = new HashSet<>();
-    private static final Set<String> COUNTRY_CODES;
+    private static final Set<String> AVAILABLE_CURRENCY_CODES;
+    private static final Set<String> AVAILABLE_COUNTRY_CODES;
 
     static {
-        Set<Currency> currencies = Currency.getAvailableCurrencies();
-        for (Currency currency : currencies) {
-            CURRENCY_CODES.add(currency.getCurrencyCode());
-        }
+        AVAILABLE_CURRENCY_CODES = Currency.getAvailableCurrencies()
+                                           .stream()
+                                           .map(Currency::getCurrencyCode)
+                                           .collect(Collectors.toUnmodifiableSet());
 
-        COUNTRY_CODES = Set.of(Locale.getISOCountries());
+        AVAILABLE_COUNTRY_CODES = Set.of(Locale.getISOCountries());
     }
 
     public void create(CreateTradeRequest request) {
@@ -30,14 +30,14 @@ public class TradeService {
     }
 
     void validateCurrency(CreateTradeRequest request) {
-        if (!CURRENCY_CODES.contains(request.currencyFrom))
+        if (!AVAILABLE_CURRENCY_CODES.contains(request.currencyFrom))
             throw new BadRequestException("unsupported currencyFrom, value=" + request.currencyFrom);
-        if (!CURRENCY_CODES.contains(request.currencyTo))
+        if (!AVAILABLE_CURRENCY_CODES.contains(request.currencyTo))
             throw new BadRequestException("unsupported currencyTo, value=" + request.currencyTo);
     }
 
     void validateCountry(CreateTradeRequest request) {
-        if (!COUNTRY_CODES.contains(request.originatingCountry))
+        if (!AVAILABLE_COUNTRY_CODES.contains(request.originatingCountry))
             throw new BadRequestException("unsupported originatingCountry, value=" + request.originatingCountry);
     }
 }

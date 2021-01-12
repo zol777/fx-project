@@ -2,12 +2,14 @@ package app.service;
 
 import app.domain.Trade;
 import app.trade.CreateTradeRequest;
+import app.trade.GetTradeResponse;
 import core.framework.web.exception.BadRequestException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 
+import static core.framework.test.Assertions.assertBean;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -20,7 +22,7 @@ class TradeServiceTest {
 
     @BeforeEach
     void createService() {
-        service = new TradeService(1);
+        service = new TradeService(1, 1);
     }
 
     @Test
@@ -74,34 +76,66 @@ class TradeServiceTest {
     }
 
     @Test
-    void trade() {
-        String userId = "123456";
-        String currencyFrom = "EUR";
-        String currencyTo = "GBP";
-        BigDecimal amountSell = BigDecimal.valueOf(1000);
-        BigDecimal amountBuy = BigDecimal.valueOf(747.1);
-        BigDecimal rate = BigDecimal.valueOf(0.7471);
-        String timePlaced = "24-JAN-18 10:27:44";
-        String originatingCountry = "FR";
+    void tradeResponseNotNull() {
+        GetTradeResponse response = service.get();
+        assertThat(response).isNotNull();
+    }
 
+    @Test
+    void getAllTrades() {
         var request = new CreateTradeRequest();
-        request.userId = userId;
-        request.currencyFrom = currencyFrom;
-        request.currencyTo = currencyTo;
-        request.amountSell = amountSell;
-        request.amountBuy = amountBuy;
-        request.rate = rate;
-        request.timePlaced = timePlaced;
-        request.originatingCountry = originatingCountry;
+        request.currencyFrom = "EUR";
+        request.currencyTo = "GBP";
+        request.originatingCountry = "FR";
+
+        service.create(request);
+        GetTradeResponse response = service.get();
+
+        assertThat(response.trades).hasSize(1);
+    }
+
+    @Test
+    void tradeViewNotNull() {
+        Trade trade = trade();
+        assertThat(service.view(trade)).isNotNull();
+    }
+
+    @Test
+    void validTradeView() {
+        Trade trade = trade();
+        assertBean(service.view(trade)).isValid();
+    }
+
+    @Test
+    void convertToTradeFromRequest() {
+        var request = new CreateTradeRequest();
+        request.userId = "123456";
+        request.currencyFrom = "EUR";
+        request.currencyTo = "GBP";
+        request.amountSell = BigDecimal.valueOf(1000);
+        request.amountBuy = BigDecimal.valueOf(747.1);
+        request.rate = BigDecimal.valueOf(0.7471);
+        request.timePlaced = "24-JAN-18 10:27:44";
+        request.originatingCountry = "FR";
 
         Trade trade = service.trade(request);
+        Trade expected = trade();
 
-        assertThat(trade.userId).isEqualTo(userId);
-        assertThat(trade.currencyFrom).isEqualTo(currencyFrom);
-        assertThat(trade.currencyTo).isEqualTo(currencyTo);
-        assertThat(trade.amountSell).isEqualTo(amountSell);
-        assertThat(trade.amountBuy).isEqualTo(amountBuy);
-        assertThat(trade.timePlaced).isEqualTo(timePlaced);
-        assertThat(trade.originatingCountry).isEqualTo(originatingCountry);
+        assertThat(trade).usingRecursiveComparison().ignoringFields("id") // ignore random id
+                         .isEqualTo(expected);
+    }
+
+    private Trade trade() {
+        var trade = new Trade();
+        trade.id = "id";
+        trade.userId = "123456";
+        trade.currencyFrom = "EUR";
+        trade.currencyTo = "GBP";
+        trade.amountSell = BigDecimal.valueOf(1000);
+        trade.amountBuy = BigDecimal.valueOf(747.1);
+        trade.rate = BigDecimal.valueOf(0.7471);
+        trade.timePlaced = "24-JAN-18 10:27:44";
+        trade.originatingCountry = "FR";
+        return trade;
     }
 }

@@ -5,7 +5,8 @@ services:
     ports:
       - 8090:8090
     environment:
-      - APP_MAXTRADE=100
+      - APP_TRADE_MAX=100
+      - APP_POLLSIZE_MAX=2
   backoffice:
     image: ericccw/fx-backoffice:latest
     ports:

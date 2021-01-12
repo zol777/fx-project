@@ -2,9 +2,13 @@ package app.service;
 
 import app.domain.Trade;
 import app.trade.CreateTradeRequest;
+import app.trade.GetTradeResponse;
+import app.trade.TradeView;
 import core.framework.web.exception.BadRequestException;
 
+import java.util.ArrayList;
 import java.util.Currency;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.UUID;
@@ -28,10 +32,12 @@ public class TradeService {
         COUNTRY_CODES = Set.of(Locale.getISOCountries());
     }
 
+    private final int maxPollSize;
     final BlockingQueue<Trade> trades;
 
-    public TradeService(int maxTrade) {
-        trades = new LinkedBlockingQueue<>(maxTrade); // adapt to cloud compute instance memory config
+    public TradeService(int maxTrade, int maxPollSize) { // adapt to cloud compute instance memory config
+        trades = new LinkedBlockingQueue<>(maxTrade);
+        this.maxPollSize = maxPollSize;
     }
 
     public void create(CreateTradeRequest request) {
@@ -43,6 +49,29 @@ public class TradeService {
         } catch (InterruptedException e) {
             throw new Error(e);
         }
+    }
+
+    public GetTradeResponse get() {
+        List<Trade> currentTrades = new ArrayList<>();
+        trades.drainTo(currentTrades, maxPollSize);
+
+        var response = new GetTradeResponse();
+        response.trades = currentTrades.stream().map(this::view).collect(Collectors.toList());
+        return response;
+    }
+
+    TradeView view(Trade trade) {
+        var view = new TradeView();
+        view.id = trade.id;
+        view.userId = trade.userId;
+        view.currencyFrom = trade.currencyFrom;
+        view.currencyTo = trade.currencyTo;
+        view.amountSell = trade.amountSell;
+        view.amountBuy = trade.amountBuy;
+        view.rate = trade.rate;
+        view.timePlaced = trade.timePlaced;
+        view.originatingCountry = trade.originatingCountry;
+        return view;
     }
 
     void validateCurrency(CreateTradeRequest request) {

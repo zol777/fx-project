@@ -3,6 +3,7 @@ project('backoffice') {
     project.ext['frontendDir'] = "${rootDir}/frontend/backoffice-ui"
 
     dependencies {
+        implementation project(":frontend:backoffice-interface")
         implementation project(":backend:trade-service-interface")
     }
 }

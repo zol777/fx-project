@@ -15,11 +15,15 @@ public class BackOfficeApp extends App {
         load(new SystemModule("sys.properties"));
         loadProperties("app.properties");
 
+        configureHomePage();
+
+        load(new TradeModule());
+    }
+
+    private void configureHomePage() {
         site().staticContent("/static");
 
         var controller = new HomeController(bind(WebPages.class));
         http().route(HTTPMethod.GET, "/", controller);
-
-        api().client(TradeWebService.class, requiredProperty("app.tradeServiceURL"));
     }
 }

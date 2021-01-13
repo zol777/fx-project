@@ -71,8 +71,7 @@ class TradeServiceTest {
         request.currencyTo = "GBP";
         request.originatingCountry = "FR";
 
-        service.create(request);
-        assertThat(service.trades).hasSize(1);
+        assertDoesNotThrow(() -> service.create(request));
     }
 
     @Test

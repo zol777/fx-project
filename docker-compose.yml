@@ -7,9 +7,16 @@ services:
     environment:
       - APP_TRADE_MAX=100
       - APP_POLLSIZE_MAX=2
+    networks:
+      - network
   backoffice:
     image: ericccw/fx-backoffice:latest
     ports:
       - 8443:8443
     depends_on:
       - trade-service
+    networks:
+      - network
+
+networks:
+  network:

@@ -1,5 +1,17 @@
+// use gradlew -Penv=${env} to pass
+def env = hasProperty('env') ? env : null
+
 apply plugin: 'application'
 mainClassName = 'Main'
+
+tasks.named("processResources").configure {
+    if (env != null) {
+        assert project.file("conf/${env}/resources").exists()
+        inputs.dir project.file("conf/${env}/resources")
+        from "conf/${env}/resources"
+        duplicatesStrategy = DuplicatesStrategy.INCLUDE
+    }
+}
 
 tasks.named("distTar").configure {
     archiveFileName = "${archiveBaseName.get()}.${archiveExtension.get()}"
@@ -28,9 +40,8 @@ tasks.named("run").configure {
 }
 
 afterEvaluate {
-    tasks.register('dockerTar') {
+    tasks.register('moveTarToDocker') {
         group = 'distribution'
-        dependsOn assemble
         doLast {
             delete "${projectDir}/docker/file/${project.name}.tar"
             copy {

@@ -9,6 +9,6 @@ import core.framework.api.web.service.Path;
  */
 public interface TradeAJAXService {
     @GET
-    @Path("/trade")
+    @Path("/ajax/trade")
     GetTradeAJAXResponse get();
 }

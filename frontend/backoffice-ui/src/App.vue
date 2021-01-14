@@ -15,14 +15,23 @@ export default {
   },
   data() {
     return {
-      trades: []
+      trades: [],
+      timer: null
     }
   },
-  mounted() {
-    axios
-        .get("https://localhost:8443/ajax/trade")
-        .then(response => (this.trades = response.data.trades))
-        .catch(error => console.log(error))
+  methods: {
+    getTrades() {
+      axios
+          .get("https://localhost:8443/ajax/trade")
+          .then(response => (this.trades = response.data.trades))
+          .catch(error => console.error(error))
+    }
+  },
+  created() {
+    this.timer = setInterval(this.getTrades, 3000); // 3 seconds
+  },
+  beforeDestroy() {
+    clearInterval(this.timer)
   }
 }
 </script>

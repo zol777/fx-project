@@ -32,8 +32,8 @@ Port 8090 and 8443 are used for producing and browsing trade messages respective
    
 ## Configuration
 
-  * `APP_TRADE_MAX` refers to max no. of trade message in the queue.
-  * `APP_POLLSIZE_MAX` refers to max no. of trade message polled from the queue for each time.
+  * `app.trade.max/APP_TRADE_MAX` refers to max no. of trade message in the queue.
+  * `app.pollSize.max/APP_POLLSIZE_MAX` refers to max no. of trade message polled from the queue for each time.
   * Together with rate limiting, parameters could be tuned to avoid problems such as producer API timeout.
    
 ## API Endpoint

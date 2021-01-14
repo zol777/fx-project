@@ -1,17 +1,28 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <Trade v-for="trade in trades" :key="trade.id" :trade="trade"/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import axios from "axios";
+import Trade from './components/Trade.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    Trade
+  },
+  data() {
+    return {
+      trades: []
+    }
+  },
+  mounted() {
+    axios
+        .get("https://localhost:8443/ajax/trade")
+        .then(response => (this.trades = response.data.trades))
+        .catch(error => console.log(error))
   }
 }
 </script>

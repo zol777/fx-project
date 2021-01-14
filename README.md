@@ -24,14 +24,17 @@ Port 8090 and 8443 are used for producing and browsing trade messages respective
     * Import and load the project as gradle project
     * To run backend, configure the working directory as `$MODULE_WORKING_DIR$`. Run Main.java in `backend/trade-service/src/main/java`
     * To run frontend, execute gradle task `buildFrontend` in `frontend/backoffice/Tasks/build/buildFrontend`. Configure the working directory as `$MODULE_WORKING_DIR$`. Run Main.java in `frontend/backoffice/src/main/java`
-
+    * (optional) Configure the blocking queue parameters in `backend/trade-service/src/main/resources/app.properties`.
 
 2. Docker
     * Run `docker-compose up -d` at the root of the project.
     * (optional) Configure the blocking queue parameters in `docker-compose.yml` according to container memory allocation.
-        * `APP_TRADE_MAX` refers to max no. of trade message in the queue.
-        * `APP_POLLSIZE_MAX` refers to max no. of trade message polled from the queue for each time.
-        * Together with rate limiting, parameters could be tuned to avoid problems such as producer API timeout.
+   
+## Configuration
+
+  * `APP_TRADE_MAX` refers to max no. of trade message in the queue.
+  * `APP_POLLSIZE_MAX` refers to max no. of trade message polled from the queue for each time.
+  * Together with rate limiting, parameters could be tuned to avoid problems such as producer API timeout.
    
 ## API Endpoint
 

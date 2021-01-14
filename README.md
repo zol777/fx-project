@@ -10,7 +10,9 @@ Containerizing the project with minimal dependency solves Java JDK incompatibili
 
 ## Setup
 
-1. Intellij
+Port 8090 and 8443 are used for producing and browsing trade messages respectively.
+
+1. IntelliJ
 
    Environment:
    ```
@@ -19,9 +21,9 @@ Containerizing the project with minimal dependency solves Java JDK incompatibili
    Yarn: v1.22.10
    ```  
 
-   * Import and load the project as gradle project.
-   * To run backend, configure the working directory as `$MODULE_WORKING_DIR$`. Run Main.java in `backend/trade-service/src/main/java`.
-   * To run frontend, execute gradle task `buildFrontend` in `frontend/backoffice/Tasks/build/buildFrontend`. Configure the working directory as `$MODULE_WORKING_DIR$`. Run Main.java in `frontend/backoffice/src/main/java`.
+   * Import and load the project as gradle project
+   * To run backend, configure the working directory as `$MODULE_WORKING_DIR$`. Run Main.java in `backend/trade-service/src/main/java`
+   * To run frontend, execute gradle task `buildFrontend` in `frontend/backoffice/Tasks/build/buildFrontend`. Configure the working directory as `$MODULE_WORKING_DIR$`. Run Main.java in `frontend/backoffice/src/main/java`
 
 
 2. Docker

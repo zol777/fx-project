@@ -32,3 +32,9 @@ Port 8090 and 8443 are used for producing and browsing trade messages respective
         * `APP_TRADE_MAX` refers to max no. of trade message in the queue.
         * `APP_POLLSIZE_MAX` refers to max no. of trade message polled from the queue for each time.
         * Together with rate limiting, parameters could be tuned to avoid problems such as producer API timeout.
+   
+## Continuous Delivery
+
+Continuous delivery has not been implemented in this project due to time constraint and security concern on image registry secret management. The plan is to build image on cloud image registry and create a new container with that image for deployment.  
+
+Most importantly, each deployment/release should not break any API/interface in order to achieve multiple releases without users feeling about it.

@@ -33,6 +33,21 @@ Port 8090 and 8443 are used for producing and browsing trade messages respective
         * `APP_POLLSIZE_MAX` refers to max no. of trade message polled from the queue for each time.
         * Together with rate limiting, parameters could be tuned to avoid problems such as producer API timeout.
    
+## API Endpoint
+
+1. trade message producer
+   ```
+   curl -XPOST -k https://localhost:8090/trade -H "Content-Type:application/json" -d '{"userId":"134256","currencyFrom":"EUR","currencyTo":"GBP","amountSell":1000,"amountBuy":747.1,"rate":0.7471,"timePlaced":"24-JAN-18 10:27:44","originatingCountry":"FR"}'
+   ```
+2. trade message consumer
+   ```
+   curl -XGET -k https://localhost:8443/ajax/trade
+   ```
+3. frontend
+   ```
+   curl -XGET -k https://localhost:8443
+   ```
+
 ## Continuous Delivery
 
 Continuous delivery has not been implemented in this project due to time constraint and security concern on image registry secret management. The plan is to build image on cloud image registry and create a new container with that image for deployment.  

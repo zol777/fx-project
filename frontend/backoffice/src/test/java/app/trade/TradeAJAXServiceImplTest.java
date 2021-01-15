@@ -72,6 +72,12 @@ class TradeAJAXServiceImplTest {
         assertThat(actual.originatingCountry).isEqualTo(expected.originatingCountry);
     }
 
+    @Test
+    void countryFlagImageURL() {
+        String url = serviceImpl.countryFlagImageURL("FR");
+        assertThat(url).isEqualTo("https://www.countryflags.io/fr/flat/16.png");
+    }
+
     private TradeView trade() {
         var trade = new TradeView();
         trade.id = "id";

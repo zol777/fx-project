@@ -50,5 +50,9 @@ public class GetTradeAJAXResponse {
         @NotNull
         @Property(name = "originatingCountry")
         public String originatingCountry;
+
+        @NotNull
+        @Property(name = "countryFlagImageURL")
+        public String countryFlagImageURL;
     }
 }

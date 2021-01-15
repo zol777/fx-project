@@ -3,6 +3,8 @@ package app.trade;
 import app.TradeAJAXService;
 import app.TradeWebService;
 import core.framework.inject.Inject;
+import core.framework.util.ASCII;
+import core.framework.util.Strings;
 
 import java.util.stream.Collectors;
 
@@ -10,6 +12,9 @@ import java.util.stream.Collectors;
  * @author ericchung
  */
 public class TradeAJAXServiceImpl implements TradeAJAXService {
+    private final static String COUNTRY_FLAG_IMAGE_STYLE = "flat";
+    private final static String COUNTRY_FLAG_IMAGE_SIZE = "16";
+
     @Inject
     TradeWebService tradeWebService;
 
@@ -31,6 +36,11 @@ public class TradeAJAXServiceImpl implements TradeAJAXService {
         trade.rate = view.rate;
         trade.timePlaced = view.timePlaced;
         trade.originatingCountry = view.originatingCountry;
+        trade.countryFlagImageURL = countryFlagImageURL(view.originatingCountry);
         return trade;
+    }
+
+    String countryFlagImageURL(String countryCode) { // refer to https://www.countryflags.io/
+        return Strings.format("https://www.countryflags.io/{}/{}/{}.png", ASCII.toLowerCase(countryCode), COUNTRY_FLAG_IMAGE_STYLE, COUNTRY_FLAG_IMAGE_SIZE);
     }
 }

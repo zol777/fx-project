@@ -29,6 +29,7 @@ class TradeServiceTest {
     void invalidCurrencyFrom() {
         var request = new CreateTradeRequest();
         request.currencyFrom = "AAA";
+
         assertThatThrownBy(() -> service.validateCurrency(request))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessageContaining("currencyFrom");
@@ -39,6 +40,7 @@ class TradeServiceTest {
         var request = new CreateTradeRequest();
         request.currencyFrom = "EUR";
         request.currencyTo = "AAA";
+
         assertThatThrownBy(() -> service.validateCurrency(request))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessageContaining("currencyTo");
@@ -50,6 +52,7 @@ class TradeServiceTest {
         request.currencyFrom = "EUR";
         request.currencyTo = "GBP";
         request.originatingCountry = "FR";
+
         assertDoesNotThrow(() -> service.validateCountry(request));
     }
 
@@ -59,6 +62,7 @@ class TradeServiceTest {
         request.currencyFrom = "EUR";
         request.currencyTo = "GBP";
         request.originatingCountry = "HongKong";
+
         assertThatThrownBy(() -> service.validateCountry(request))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessageContaining("originatingCountry");

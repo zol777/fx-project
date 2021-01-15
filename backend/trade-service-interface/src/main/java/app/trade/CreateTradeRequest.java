@@ -17,10 +17,12 @@ public class CreateTradeRequest {
     public String userId;
 
     @NotNull
+    @NotBlank
     @Property(name = "currencyFrom")
     public String currencyFrom;
 
     @NotNull
+    @NotBlank
     @Property(name = "currencyTo")
     public String currencyTo;
 
@@ -40,10 +42,12 @@ public class CreateTradeRequest {
     public BigDecimal rate;
 
     @NotNull
+    @NotBlank
     @Property(name = "timePlaced")
     public String timePlaced;
 
     @NotNull
+    @NotBlank
     @Property(name = "originatingCountry")
     public String originatingCountry;
 }

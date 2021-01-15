@@ -17,13 +17,13 @@ import static org.mockito.Mockito.verify;
  */
 @ExtendWith(MockitoExtension.class)
 class HomeControllerTest {
-    @Mock
-    WebPages webpage;
     private HomeController controller;
+    @Mock
+    WebPages webpages;
 
     @BeforeEach
     void createController() {
-        controller = new HomeController(webpage);
+        controller = new HomeController(webpages);
     }
 
     @Test
@@ -34,6 +34,6 @@ class HomeControllerTest {
 
     @Test
     void indexPage() {
-        verify(webpage).get(argThat("/index.html"::equals));
+        verify(webpages).get(argThat("/index.html"::equals));
     }
 }

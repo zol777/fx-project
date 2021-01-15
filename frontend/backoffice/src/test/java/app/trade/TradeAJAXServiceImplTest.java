@@ -75,7 +75,7 @@ class TradeAJAXServiceImplTest {
     @Test
     void countryFlagImageURL() {
         String url = serviceImpl.countryFlagImageURL("FR");
-        assertThat(url).isEqualTo("https://www.countryflags.io/fr/flat/16.png");
+        assertThat(url).isEqualTo("https://www.countryflags.io/fr/flat/32.png");
     }
 
     private TradeView trade() {

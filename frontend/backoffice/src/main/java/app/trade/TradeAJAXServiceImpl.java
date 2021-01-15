@@ -12,9 +12,6 @@ import java.util.stream.Collectors;
  * @author ericchung
  */
 public class TradeAJAXServiceImpl implements TradeAJAXService {
-    private final static String COUNTRY_FLAG_IMAGE_STYLE = "flat";
-    private final static String COUNTRY_FLAG_IMAGE_SIZE = "16";
-
     @Inject
     TradeWebService tradeWebService;
 
@@ -41,6 +38,11 @@ public class TradeAJAXServiceImpl implements TradeAJAXService {
     }
 
     String countryFlagImageURL(String countryCode) { // refer to https://www.countryflags.io/
-        return Strings.format("https://www.countryflags.io/{}/{}/{}.png", ASCII.toLowerCase(countryCode), COUNTRY_FLAG_IMAGE_STYLE, COUNTRY_FLAG_IMAGE_SIZE);
+        return Strings.format("https://www.countryflags.io/{}/{}/{}.png", ASCII.toLowerCase(countryCode), CountryFlagImage.STYLE, CountryFlagImage.SIZE);
+    }
+
+    private static class CountryFlagImage {
+        static final String STYLE = "flat";
+        static final String SIZE = "32";
     }
 }

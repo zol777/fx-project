@@ -18,7 +18,7 @@
       <td>{{ trade.amountBuy }}</td>
       <td>{{ trade.rate }}</td>
       <td>{{ trade.timePlaced }}</td>
-      <td>{{ trade.originatingCountry }}</td>
+      <td>{{ trade.originatingCountry }}<img :src="trade.countryFlagImageURL"/></td>
     </tr>
   </table>
 </template>
@@ -82,5 +82,9 @@ td {
 
 th, td {
   min-width: 200px;
+}
+
+#trades img {
+  vertical-align: bottom;
 }
 </style>

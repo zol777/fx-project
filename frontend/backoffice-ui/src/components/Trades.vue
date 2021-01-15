@@ -38,7 +38,7 @@ export default {
     getTrades() {
       axios
           .get("https://localhost:8443/ajax/trade")
-          .then(response => (this.trades = this.trades.concat(response.data.trades)))
+          .then(response => (this.trades = response.data.trades.concat(this.trades)))
           .catch(error => console.error(error))
     }
   },

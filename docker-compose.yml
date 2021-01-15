@@ -5,8 +5,8 @@ services:
     ports:
       - 8090:8090
     environment:
-      - APP_TRADE_MAX=100
-      - APP_POLLSIZE_MAX=2
+      - APP_TRADE_MAX=500
+      - APP_POLLSIZE_MAX=5
     networks:
       - network
   backoffice:

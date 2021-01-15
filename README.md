@@ -2,6 +2,8 @@
 
 [![Build Status](https://github.com/ericccw/fx-project/workflows/build/badge.svg)](https://github.com/ericccw/fx-project/actions)
 
+![backoffice ui preview](https://github.com/ericccw/fx-project/blob/master/frontend/backoffice-ui/preview.png?raw=true)
+
 fx-project is a project that produces and consumes trade messages in multiple threads via an API endpoint and render the received messages in real-time without persistent storage. Messages are stored in an in-memory blocking queue.
 
 The queue and microservice structure are designed to fulfill the requirement and maintain simplicity for future extension using mysql/redis/load-balancer for example.

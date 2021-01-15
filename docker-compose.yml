@@ -1,7 +1,7 @@
 version: "3"
 services:
   trade-service:
-    image: ericccw/fx-trade-service:latest
+    image: ericccw/fx-trade-service:1.0.0
     ports:
       - 8090:8090
     environment:
@@ -10,7 +10,7 @@ services:
     networks:
       - network
   backoffice:
-    image: ericccw/fx-backoffice:latest
+    image: ericccw/fx-backoffice:1.0.0
     ports:
       - 8443:8443
     depends_on:
